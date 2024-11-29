@@ -1,0 +1,26 @@
+<resources>
+    <!-- App General -->
+    <string name="app_name">Prototipo</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Menú del Drawer -->
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <!-- Servicios -->
+    <string name="lavado_vehiculos">Lavado de Vehículos</string>
+    <string name="servicios_especiales">Servicios Especiales</string>
+    <string name="mecanica">Mecánica</string>
+    <string name="otros_lavados">Otros Lavados</string>
+
+    <!-- Barra de Navegación -->
+    <string name="inicio">Inicio</string>
+    <string name="reserva">Reserva</string>
+    <string name="salir">Salir</string>
+</resources>
