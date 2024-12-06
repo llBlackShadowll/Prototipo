@@ -10,12 +10,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
 
+        <!-- Forgot Password Activity -->
         <activity android:name=".ForgotPasswordActivity" />
+
+        <!-- Password Reset Sent Activity -->
         <activity android:name=".PasswordResetSentActivity" />
+
+        <!-- Register Success Activity -->
         <activity android:name=".RegisterSuccessActivity" />
+
+        <!-- Register Activity -->
         <activity android:name=".RegisterActivity" />
+
+        <!-- Reserva Activity -->
+        <activity android:name=".ReservaActivity" />
+
+        <!-- Main Activity -->
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity"
+
+        <!-- Login Activity -->
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnVerMasExpreso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Más Expreso" />
+
+    <Button
+        android:id="@+id/btnVerMasEconomico"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Más Económico" />
+
+    <Button
+        android:id="@+id/btnVerMasEjecutivo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Más Ejecutivo" />
+
+    <Button
+        android:id="@+id/btnVerMasInterior"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Más Interior" />
+</LinearLayout>
