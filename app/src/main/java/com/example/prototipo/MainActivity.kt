@@ -3,18 +3,23 @@ package com.example.prototipo
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.prototipo.databinding.ActivityMainBinding
 import com.example.prototipo.databinding.ActivityLavadoVehiculosBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
-    private var lavadoVehiculosBinding: ActivityLavadoVehiculosBinding? = null // Manejar el binding del otro layout
+    private var lavadoVehiculosBinding: ActivityLavadoVehiculosBinding? = null // Manejar el binding del layout de lavado de vehículos
+
+    // Variable para rastrear el estado del layout actual
+    private var currentLayout: CurrentLayout = CurrentLayout.MAIN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.menu_inicio -> {
                     // Acción para Inicio
-                    showMainLayout() // Regresa al layout principal
+                    showMainLayout()
                 }
                 R.id.menu_reserva -> {
                     // Acción para abrir la actividad de reserva
@@ -51,9 +56,21 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Configurar el botón de Lavado de Vehículos
+        // Configurar los botones de las opciones principales
         binding.imgLavadoVehiculos.setOnClickListener {
             showLavadoVehiculosLayout()
+        }
+
+        binding.imgServiciosEspeciales.setOnClickListener {
+            showServiciosEspecialesLayout()
+        }
+
+        binding.imgMecanica.setOnClickListener {
+            showMecanicaLayout()
+        }
+
+        binding.imgOtrosLavados.setOnClickListener {
+            showOtrosLavadosLayout()
         }
 
         // Configurar el carrusel (ViewPager2)
@@ -61,11 +78,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        // Si estamos en el layout de Lavado de Vehículos, volvemos al layout principal
-        if (lavadoVehiculosBinding != null) {
-            showMainLayout()
-        } else {
-            super.onBackPressed()
+        // Manejar el botón "Atrás" según el layout actual
+        when (currentLayout) {
+            CurrentLayout.LAVADO_VEHICULOS,
+            CurrentLayout.SERVICIOS_ESPECIALES,
+            CurrentLayout.MECANICA,
+            CurrentLayout.OTROS_LAVADOS -> {
+                // Volver al layout principal
+                showMainLayout()
+            }
+            CurrentLayout.MAIN -> {
+                super.onBackPressed() // Cerrar la aplicación si estamos en el layout principal
+            }
         }
     }
 
@@ -89,25 +113,75 @@ class MainActivity : AppCompatActivity() {
         // Infla el layout de lavado de vehículos
         lavadoVehiculosBinding = ActivityLavadoVehiculosBinding.inflate(layoutInflater)
         setContentView(lavadoVehiculosBinding!!.root)
+        currentLayout = CurrentLayout.LAVADO_VEHICULOS // Actualiza el estado del layout actual
 
-        // Manejar la interacción con los botones "Ver Más" en este layout
-        lavadoVehiculosBinding!!.btnVerMasExpreso.setOnClickListener {
-            // Acción para Ver Más en Lavado Expreso
+        // Configurar botones "Que incluye"
+        lavadoVehiculosBinding!!.btnLavadoExpreso.setOnClickListener {
+            showBottomSheetDialog(R.layout.lavado_expreso)
         }
-        lavadoVehiculosBinding!!.btnVerMasEconomico.setOnClickListener {
-            // Acción para Ver Más en Lavado Económico
+
+        lavadoVehiculosBinding!!.btnLavadoEconomico.setOnClickListener {
+            showBottomSheetDialog(R.layout.lavado_economico)
         }
-        lavadoVehiculosBinding!!.btnVerMasEjecutivo.setOnClickListener {
-            // Acción para Ver Más en Lavado Ejecutivo
+
+        lavadoVehiculosBinding!!.btnLavadoEjecutivo.setOnClickListener {
+            showBottomSheetDialog(R.layout.lavado_ejecutivo)
         }
-        lavadoVehiculosBinding!!.btnVerMasInterior.setOnClickListener {
-            // Acción para Ver Más en Lavado Interior
+
+        lavadoVehiculosBinding!!.btnLavadoInterior.setOnClickListener {
+            showBottomSheetDialog(R.layout.lavado_interior)
         }
+
+        lavadoVehiculosBinding!!.btnLavadoCompleto.setOnClickListener {
+            showBottomSheetDialog(R.layout.lavado_completo)
+        }
+    }
+
+    private fun showServiciosEspecialesLayout() {
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.activity_servicios_especiales, null)
+        setContentView(view)
+        currentLayout = CurrentLayout.SERVICIOS_ESPECIALES
+    }
+
+    private fun showMecanicaLayout() {
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.activity_mecanica, null)
+        setContentView(view)
+        currentLayout = CurrentLayout.MECANICA
+    }
+
+    private fun showOtrosLavadosLayout() {
+        val inflater = layoutInflater
+        val view = inflater.inflate(R.layout.activity_otros_lavados, null)
+        setContentView(view)
+        currentLayout = CurrentLayout.OTROS_LAVADOS
+    }
+
+    private fun showBottomSheetDialog(layoutRes: Int) {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(layoutRes, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
     }
 
     private fun showMainLayout() {
         // Regresa al layout principal
         setContentView(binding.root)
         lavadoVehiculosBinding = null // Limpiar el binding del otro layout
+        currentLayout = CurrentLayout.MAIN
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+}
+
+// Enum para rastrear el estado actual del layout
+enum class CurrentLayout {
+    MAIN,
+    LAVADO_VEHICULOS,
+    SERVICIOS_ESPECIALES,
+    MECANICA,
+    OTROS_LAVADOS
 }
